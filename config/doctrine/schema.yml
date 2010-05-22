@@ -7,7 +7,7 @@ SongFile:
     id: { type: integer(4), primary: true, autoincrement: true }
     member_id: { type: integer(4), notnull: true }
     title: { type: string, notnull: true }
-    public_flag: { type: integer(1), notnull: true, default: 1 }
+    public_flag: { type: integer(1), notnull: true, default: 3 }
     file_id: { type: integer(4), notnull: true }
     is_main: { type: boolean, notnull: true, default: false }
   relations:

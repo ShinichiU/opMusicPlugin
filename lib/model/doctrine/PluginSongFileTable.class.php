@@ -8,9 +8,9 @@
 class PluginSongFileTable extends Doctrine_Table
 {
   const PUBLIC_FLAG_OPEN    = 4;
-  const PUBLIC_FLAG_SNS     = 1;
+  const PUBLIC_FLAG_SNS     = 3;
   const PUBLIC_FLAG_FRIEND  = 2;
-  const PUBLIC_FLAG_PRIVATE = 3;
+  const PUBLIC_FLAG_PRIVATE = 1;
 
   protected static $publicFlags = array(
     self::PUBLIC_FLAG_OPEN    => 'All Users on the Web',
@@ -31,11 +31,6 @@ class PluginSongFileTable extends Doctrine_Table
 
   public function getPublicFlags()
   {
-    if (!sfConfig::get('app_op_diary_plugin_is_open', true))
-    {
-      unset(self::$publicFlags[self::PUBLIC_FLAG_OPEN]);
-    }
-
     $publicFlags = array();
 
     $i18n = sfContext::getInstance()->getI18N();
@@ -50,23 +45,39 @@ class PluginSongFileTable extends Doctrine_Table
     return $publicFlags;
   }
 
-  public function getMyList($limit = 5)
-  {
-    return $this->getMemberList(null, $limit);
-  }
-
-  public function getMemberList($memberId = null, $limit = 5)
+  public function getMemberList($memberId = null, $limit = 20)
   {
     $memberId = $memberId ? $memberId : sfContext::getInstance()->getUser()->getMemberId();
 
-    return $this->createOrderByQuery()
-      ->where('member_id = ?', sfContext::getInstance()->getUser()->getMemberId())
+    return $this->addPublicFlagQuery($this->createOrderByQuery(), $memberId)
+      ->andWhere('member_id = ?', sfContext::getInstance()->getUser()->getMemberId())
       ->limit($limit)
       ->execute();
   }
 
+  public function addPublicFlagQuery(Doctrine_Query $q, $memberId)
+  {
+    $myId = sfContext::getInstance()->getUser()->getMemberId();
+    if ($memberId == $myId)
+    {
+      return $q;
+    }
+    if (null == $memberId)
+    {
+      return $q->andWhere('public_flag = ?', self::PUBLIC_FLAG_OPEN);
+    }
+
+    $relation = Doctrine::getTable('MemberRelationship')->retrieveByFromAndTo($memberId, $myId);
+    if ($relation && $relation->isFriend())
+    {
+      return $q->andWhere('public_flag >= ?', self::PUBLIC_FLAG_FRIEND);
+    }
+
+    return $q->andWhere('public_flag >= ?', self::PUBLIC_FLAG_SNS);
+  }
+
   protected function createOrderByQuery()
   {
-    return $this->createQuery()->orderBy('created_at DESC');
+    return $this->createQuery()->where(1)->orderBy('created_at DESC');
   }
 }

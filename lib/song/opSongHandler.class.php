@@ -1,11 +1,11 @@
 <?php
 
 /**
- * This file is part of the sfImageHelper plugin.
- * (c) 2009 Kousuke Ebihara <ebihara@tejimaya.com>
+ * This file is part of the OpenPNE package.
+ * (c) OpenPNE Project (http://www.openpne.jp/)
  *
  * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
+ * file and the NOTICE file that were distributed with this source code.
  */
 
 /**
@@ -91,6 +91,13 @@ class opSongHandler
       umask($currentUmask);
     }
 
-    return file_get_contents($outputFilename);
+    $handle = fopen($outputFilename, 'w');
+    $result = fwrite($handle, $contents);
+    fclose($handle);
+
+    if ($result)
+    {
+      return file_get_contents($outputFilename);
+    }
   }
 }

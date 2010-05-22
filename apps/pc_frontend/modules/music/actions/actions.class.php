@@ -13,26 +13,37 @@
  *
  * @package    OpenPNE
  * @subpackage music
- * @author     Your name here
- * @version    SVN: $Id: actions.class.php 9301 2008-05-27 01:08:46Z dwhittle $
+ * @author     Shinichi Urabe <urabe@tejimaya.com>
  */
-class musicActions extends sfActions
+class musicActions extends opMusicPluginActions
 {
+  public function preExecute()
+  {
+    parent::preExecute();
+
+    $this->songFileList = Doctrine::getTable('SongFile')->getMemberList($this->member->id);
+    $this->isAbleToCreateMusic = $this->isAbleToCreateMusic();
+  }
  /**
-  * Executes index action
+  * Executes jukebox action
   *
   * @param sfWebRequest $request A request object
   */
-  public function executeIndex(sfWebRequest $request)
+  public function executeJukebox(sfWebRequest $request)
   {
-    $options = array('member' => $this->getUser()->getMember());
-    $this->form = new SongFileForm(array(), $options);
+    $this->form = new SongFileForm(array(), array('member' => $this->member));
+
   }
 
   public function executeCreate(sfWebRequest $request)
   {
-    $options = array('member' => $this->getUser()->getMember());
-    $this->form = new SongFileForm(array(), $options);
+    $this->forward404Unless($this->isAbleToCreateMusic);
+    $this->processForm($request);
+  }
+
+  protected function processForm(sfWebRequest $request)
+  {
+    $this->form = new SongFileForm(array(), array('member' => $this->member));
 
     try
     {
@@ -47,6 +58,6 @@ class musicActions extends sfActions
       $this->getUser()->setFlash('error', $e->getMessage());
     }
 
-    $this->setTemplate('index');
+    $this->setTemplate('jukebox');
   }
 }

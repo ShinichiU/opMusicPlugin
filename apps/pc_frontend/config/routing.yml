@@ -5,7 +5,7 @@ obj_member_music:
   url:     /music/:id
   class:   sfDoctrineRoute
   options: { model: Member, type: object }
-  param:   { module: music, action: index }
+  param:   { module: music, action: jukebox }
   requirements:
     id:        \d+
 
@@ -27,3 +27,11 @@ music_create:
   param:   { module: music, action: create }
   requirements:
     sf_method: [post]
+
+music_default:
+  url:     /music/*
+  param:   { module: default, action: error }
+
+song_default:
+  url:     /song/*
+  param:   { module: default, action: error }

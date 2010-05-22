@@ -1,11 +1,11 @@
 <?php
 
 /**
- * image actions.
+ * song actions.
  *
  * @package    opMusicPlugin
  * @subpackage song
- * @author     Kousuke Ebihara <ebihara@tejimaya.com>
+ * @author     Shinichi Urabe <urabe@tejimaya.com>
  */
 class songActions extends sfActions
 {

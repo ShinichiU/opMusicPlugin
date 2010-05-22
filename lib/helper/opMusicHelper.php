@@ -1,11 +1,11 @@
 <?php
 
 /**
- * This file is part of the sfImageHelper plugin.
- * (c) 2009 Kousuke Ebihara <ebihara@tejimaya.com>
+ * This file is part of the OpenPNE package.
+ * (c) OpenPNE Project (http://www.openpne.jp/)
  *
  * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
+ * file and the NOTICE file that were distributed with this source code.
  */
 
 /**
@@ -32,7 +32,7 @@ function op_song_path($filename, $options = array(), $absolute = false)
     $f = array_pop($parts);
   }
 
-  if ($f !== 'mp3' && $f !== 'wav' && $f !== 'aiff' && !== 'aif')
+  if ('mp3' !== $f && 'wav' !== $f && 'aiff' !== $f && 'aif' !== $f)
   {
     $f = 'mp3';
   }
