@@ -1,0 +1,18 @@
+musicPlayer:
+  caption:
+    ja_JP: "音楽プレーヤー"
+  description:
+    ja_JP: "メンバーのテーマソングを再生します。"
+  component: [music, player]
+  config:
+    auto_play:
+      Name:      "autoPlay"
+      Caption:   "自動再生"
+      FormType:  "select"
+      ValueType: "text"
+      IsRequired: true
+      Default:    "member_setting"
+      Choices:
+        auto:       "自動再生する"
+        non_auto:   "自動再生しない"
+        member_setting:  "メンバーの設定に任せる (デフォルト：自動再生しない)"

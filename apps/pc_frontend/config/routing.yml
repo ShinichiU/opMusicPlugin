@@ -1,0 +1,29 @@
+song_cache_dir:
+  class: opMusicPluginCacheDirRouteCollection
+
+obj_member_music:
+  url:     /music/:id
+  class:   sfDoctrineRoute
+  options: { model: Member, type: object }
+  param:   { module: music, action: index }
+  requirements:
+    id:        \d+
+
+music_list:
+  url:     /music
+  param:   { module: music, action: list }
+
+obj_music_delete:
+  url:     /music/delete/:id
+  class:   sfDoctrineRoute
+  options: { model: SongFile, type: object }
+  param:   { module: music, action: delete }
+  requirements:
+    id:        \d+
+    sf_method: [post]
+
+music_create:
+  url:     /music/create
+  param:   { module: music, action: create }
+  requirements:
+    sf_method: [post]
