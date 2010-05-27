@@ -2,6 +2,6 @@ all:
   op_allow_song_mime_type:
     values:
       mp3: audio/mpeg
-      wav: audio/wav
-      aif: audio/aiff
-      aiff: audio/aiff
+#      wav: audio/wav
+#      aif: audio/aiff
+#      aiff: audio/aiff

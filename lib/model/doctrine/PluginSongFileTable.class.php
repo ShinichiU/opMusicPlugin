@@ -50,7 +50,7 @@ class PluginSongFileTable extends Doctrine_Table
     $memberId = $memberId ? $memberId : sfContext::getInstance()->getUser()->getMemberId();
 
     return $this->addPublicFlagQuery($this->createOrderByQuery(), $memberId)
-      ->andWhere('member_id = ?', sfContext::getInstance()->getUser()->getMemberId())
+      ->andWhere('member_id = ?', $memberId)
       ->limit($limit)
       ->execute();
   }
