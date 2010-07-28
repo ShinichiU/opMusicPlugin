@@ -6,7 +6,7 @@
 
 <div class="moreInfo">
 <ul class="moreInfo">
-<li><?php echo link_to(__('More'), '@obj_member_music_list?id='.$memberId) ?></li>
+<li><?php echo link_to(__('More'), '@obj_member_music?id='.$memberId) ?></li>
 </ul>
 </div>
 
